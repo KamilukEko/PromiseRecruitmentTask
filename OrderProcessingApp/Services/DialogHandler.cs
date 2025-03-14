@@ -1,4 +1,4 @@
-﻿using OrderProcessingApp.Consts;
+﻿using OrderProcessingApp.Dialogs;
 using OrderProcessingApp.Interfaces;
 using OrderProcessingApp.Models.Enums;
 using OrderProcessingApp.Services.PageHandlers;
@@ -8,13 +8,14 @@ namespace OrderProcessingApp.Services;
 public class DialogHandler
 {
     private IPageHandler _currentPageHandler;
-    private Dictionary<Page, IPageHandler> _pageHandlers;
+    private Dictionary<Page, Func<IPageHandler>> _pageHandlers;
     
     public DialogHandler()
     {
-        _pageHandlers = new Dictionary<Page, IPageHandler>
+        _pageHandlers = new Dictionary<Page, Func<IPageHandler>>
         {
-            {Page.MainMenu, new MainMenuHandler(ChangePage)}
+            {Page.MainMenu, () => new MainMenuHandler(ChangePage)},
+            {Page.CreateOrder, () => new CreateOrderHandler(ChangePage)},
         };
     }
 
@@ -29,13 +30,17 @@ public class DialogHandler
         if (_currentPageHandler != null)
             Console.Clear();
         
-        _currentPageHandler = _pageHandlers[page];
-        _currentPageHandler.DisplayOptions();
+        if (!_pageHandlers.TryGetValue(page, out var newPageHandlerInitializer))
+            throw new ArgumentException($"Page handler for page {page.ToString()} not found");
+
+        IPageHandler newPageHandler = newPageHandlerInitializer();
+        newPageHandler.DisplayOptions();
+        _currentPageHandler = newPageHandler;
     }
     
     private void WelcomeUser()
     {
-        Console.WriteLine(DialogOptions.Welcome);
+        Console.WriteLine(SharedDialogs.Welcome + "\n" + SharedDialogs.Info);
         ChangePage(Page.MainMenu);
     }
 
@@ -47,6 +52,12 @@ public class DialogHandler
             
             if (input.ToUpper() == "EXIT")
                 Program.Close();
+
+            if (input.ToUpper() == "BACK")
+            {
+                ChangePage(Page.MainMenu);
+                continue;
+            } 
             
             _currentPageHandler.HandleUserInput(input);
         }

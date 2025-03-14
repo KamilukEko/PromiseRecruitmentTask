@@ -11,6 +11,12 @@ public sealed class DatabaseManager : DbContext
     {
         Database.EnsureCreated();
     }
+    
+    public void AddOrder(Order order)
+    {
+        Orders.Add(order);
+        SaveChanges();
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -26,6 +32,8 @@ public sealed class DatabaseManager : DbContext
             entity.Property(e => e.ClientType).IsRequired();
             entity.Property(e => e.PaymentMethod).IsRequired();
             entity.Property(e => e.Status).IsRequired();
+            entity.Property(e => e.ProductName).IsRequired();
+            entity.Property(e => e.ShippingAddress).IsRequired();
         });
     }
 }

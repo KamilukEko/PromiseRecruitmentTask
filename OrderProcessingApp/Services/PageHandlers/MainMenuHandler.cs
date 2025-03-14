@@ -1,4 +1,4 @@
-﻿using OrderProcessingApp.Consts;
+﻿using OrderProcessingApp.Dialogs;
 using OrderProcessingApp.Interfaces;
 using OrderProcessingApp.Models.Enums;
 
@@ -6,12 +6,12 @@ namespace OrderProcessingApp.Services.PageHandlers;
 
 public class MainMenuHandler(Action<Page> changePageFunction) : IPageHandler
 {
-    public void DisplayOptions() => Console.Write(DialogOptions.GetMainMenuOptions());
+    public void DisplayOptions() => Console.Write(MainMenuDialog.Options);
     public void HandleUserInput(string userInput)
     {
         if (!int.TryParse(userInput, out int choice))
         {
-            Console.Write(DialogOptions.InvalidOption);
+            Console.Write(SharedDialogs.InvalidOption);
             return;
         }
 
@@ -33,7 +33,7 @@ public class MainMenuHandler(Action<Page> changePageFunction) : IPageHandler
                 Program.Close();
                 break;
             default:
-                Console.Write(DialogOptions.InvalidOption);
+                Console.Write(SharedDialogs.InvalidOption);
                 break;
         }
     }
