@@ -1,4 +1,5 @@
-﻿using OrderProcessingApp.Dialogs;
+﻿using System.Globalization;
+using OrderProcessingApp.Dialogs;
 using OrderProcessingApp.Interfaces;
 using OrderProcessingApp.Models;
 using OrderProcessingApp.Models.Enums;
@@ -38,15 +39,21 @@ public class CreateOrderHandler : IPageHandler
     {
         bool success = true;
         
-        if (!decimal.TryParse(_orderDetailsValues[0], out decimal orderAmount))
+        if (!decimal.TryParse(_orderDetailsValues[0], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal orderAmount))
         {
             Console.WriteLine(CreateOrderDialog.InvalidOrderAmount);
             orderAmount = 0;
             success = false;
         }
+        
+        if (orderAmount <= 0)
+        {
+            Console.WriteLine(CreateOrderDialog.InvalidOrderAmount);
+            success = false;
+        }
 
         string productName = _orderDetailsValues[1];
-        if (productName == String.Empty)
+        if (string.IsNullOrEmpty(productName))
         {
             Console.WriteLine(CreateOrderDialog.InvalidProductName);
             success = false;
@@ -60,7 +67,7 @@ public class CreateOrderHandler : IPageHandler
         }
 
         string shippingAddress = _orderDetailsValues[3];
-        if (productName == String.Empty)
+        if (string.IsNullOrEmpty(shippingAddress))
         {
             Console.WriteLine(CreateOrderDialog.InvalidShippingAddress);
             success = false;
