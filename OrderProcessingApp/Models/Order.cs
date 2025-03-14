@@ -4,9 +4,11 @@ namespace OrderProcessingApp.Models;
 
 public class Order
 {
-    public decimal TotalAmount { get; }
-    public string ProductName { get; }
-    public ClientType ClientType { get; }
-    public string ShippingAddress { get; }
-    public PaymentMethod PaymentMethod { get; }
+    public int Id { get; set; }
+    public decimal TotalAmount { get; set; }
+    public string ProductName { get; set; }
+    public string ShippingAddress { get; set; }
+    public ClientType ClientType { get; set; }
+    public PaymentMethod PaymentMethod { get; set; }
+    public OrderStatus Status { get; set; }
 }

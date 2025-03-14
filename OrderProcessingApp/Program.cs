@@ -1,9 +1,9 @@
-﻿namespace OrderProcessingApp;
+﻿using OrderProcessingApp.Services;
+
+namespace OrderProcessingApp;
 
 class Program
 {
-    static void Main(string[] args)
-    {
-        Console.WriteLine("Hello, World!");
-    }
+    static void Main(string[] args) => new DialogHandler().Start();
+    public static void Close() => Environment.Exit(0);
 }
