@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderProcessingApp", "OrderProcessingApp\OrderProcessingApp.csproj", "{94661AA0-AAF9-4EFB-BC14-74A6F14E3F70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderProcessingApp.Tests", "OrderProcessingApp.Tests\OrderProcessingApp.Tests.csproj", "{B6AA3239-C70F-469B-8210-7ABD58E279CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94661AA0-AAF9-4EFB-BC14-74A6F14E3F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94661AA0-AAF9-4EFB-BC14-74A6F14E3F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94661AA0-AAF9-4EFB-BC14-74A6F14E3F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94661AA0-AAF9-4EFB-BC14-74A6F14E3F70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6AA3239-C70F-469B-8210-7ABD58E279CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6AA3239-C70F-469B-8210-7ABD58E279CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6AA3239-C70F-469B-8210-7ABD58E279CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6AA3239-C70F-469B-8210-7ABD58E279CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
