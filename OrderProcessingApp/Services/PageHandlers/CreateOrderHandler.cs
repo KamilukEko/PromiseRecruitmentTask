@@ -9,8 +9,8 @@ namespace OrderProcessingApp.Services.PageHandlers;
 public class CreateOrderHandler : IPageHandler
 {
     private readonly List<Action> _dialogSteps;
-    private Action<Page> _changePageFunction;
-    private List<string> _orderDetailsValues = [];
+    private readonly Action<Page> _changePageFunction;
+    private readonly List<string> _orderDetailsValues = [];
 
     public CreateOrderHandler(Action<Page> changePageFunction)
     {
@@ -46,7 +46,7 @@ public class CreateOrderHandler : IPageHandler
             success = false;
         }
         
-        if (orderAmount <= 0)
+        if (orderAmount < 0)
         {
             Console.WriteLine(CreateOrderDialog.InvalidOrderAmount);
             success = false;
@@ -75,7 +75,7 @@ public class CreateOrderHandler : IPageHandler
         
         if (!Enum.TryParse(_orderDetailsValues[4], true, out PaymentMethod paymentMethod))
         {
-            Console.WriteLine(CreateOrderDialog.InvalidClientType);
+            Console.WriteLine(CreateOrderDialog.PaymentMethod);
             paymentMethod = PaymentMethod.Unknown;
             success = false;
         }
@@ -95,16 +95,12 @@ public class CreateOrderHandler : IPageHandler
 
     private void CreateOrder()
     {
-        if (ValidateOrder(out Order order))
-        {
-            Program.DatabaseManager.AddOrder(order);
-            Console.WriteLine(CreateOrderDialog.OrderCreated);
-        }
-        else
-        {
-            Console.WriteLine(CreateOrderDialog.OrderCreationFailed);
-        }
-            
+        Console.WriteLine(ValidateOrder(out Order order)
+            ? CreateOrderDialog.OrderCreated
+            : CreateOrderDialog.OrderCreationFailed);
+        
+        Program.DatabaseManager.AddOrder(order);
+        
         Console.Write(CreateOrderDialog.AnotherOrderOrReturn);
     }
     
@@ -116,18 +112,17 @@ public class CreateOrderHandler : IPageHandler
             return;
         }
         
-        if (userInput.ToLower() == "y")
+        switch (userInput.ToLower())
         {
-            _changePageFunction(Page.CreateOrder);
-            return;
+            case "y":
+                _changePageFunction(Page.CreateOrder);
+                return;
+            case "n":
+                _changePageFunction(Page.MainMenu);
+                return;
+            default:
+                Console.Write(SharedDialogs.InvalidOption);
+                break;
         }
-        
-        if (userInput.ToLower() == "n")
-        {
-            _changePageFunction(Page.MainMenu);
-            return;
-        }
-        
-        Console.Write(SharedDialogs.InvalidOption);
     }
 }

@@ -17,6 +17,8 @@ public sealed class DatabaseManager : DbContext
         Orders.Add(order);
         SaveChanges();
     }
+    
+    public List<Order> GetOrders() => Orders.ToList();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

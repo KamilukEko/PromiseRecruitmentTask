@@ -16,6 +16,7 @@ public class DialogHandler
         {
             {Page.MainMenu, () => new MainMenuHandler(ChangePage)},
             {Page.CreateOrder, () => new CreateOrderHandler(ChangePage)},
+            {Page.OrdersList, () => new OrdersListHandler(ChangePage)},
         };
     }
 

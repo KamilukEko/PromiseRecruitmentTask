@@ -16,6 +16,6 @@ public class CreateOrderDialog
     public const string InvalidShippingAddress = "Invalid shipping address";
     
     public const string OrderCreated = "Order created successfully!";
-    public const string OrderCreationFailed = "Order creation failed!";
+    public const string OrderCreationFailed = "Order creation ended with error!";
     public const string AnotherOrderOrReturn = "Do you want to create another order? (Y/N): ";
 }
