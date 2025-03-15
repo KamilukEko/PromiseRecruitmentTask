@@ -15,7 +15,8 @@ public class CreateOrderDialog
     public const string InvalidProductName = "Invalid product name";
     public const string InvalidShippingAddress = "Invalid shipping address";
     
-    public const string OrderCreated = "Order created successfully!";
-    public const string OrderCreationFailed = "Order creation ended with error!";
+    public static string OrderCreated(int orderId) => $"Order with id - {orderId} was created successfully!";
+    public static string OrderCreationFailed(int orderId) => $"Creation of order with id - {orderId} failed!";
+    
     public const string AnotherOrderOrReturn = "Do you want to create another order? (Y/N): ";
 }

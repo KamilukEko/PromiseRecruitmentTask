@@ -35,7 +35,7 @@ public class OrdersListHandler(Action<Page> changePageFunction): IPageHandler
             Console.Write(GenerateOrdersString(orders));
         }
         
-        Console.Write(OrdersListDialog.GoBackMessage);
+        Console.Write(SharedDialogs.GoBackMessage);
     }
 
     public void HandleUserInput(string userInput) => changePageFunction(Page.MainMenu);

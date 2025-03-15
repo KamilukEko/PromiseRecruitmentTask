@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderProcessingApp.Models;
+using OrderProcessingApp.Models.Enums;
 
 namespace OrderProcessingApp.Services;
 
@@ -12,10 +13,26 @@ public sealed class DatabaseManager : DbContext
         Database.EnsureCreated();
     }
     
-    public void AddOrder(Order order)
+    public int AddOrder(Order order)
     {
-        Orders.Add(order);
+        Order entity = Orders.Add(order).Entity;
         SaveChanges();
+        return entity.Id;
+    }
+    
+    public Order? GetOrderById(int orderId)
+    {
+        return Orders.FirstOrDefault(o => o.Id == orderId);
+    }
+    
+    public bool UpdateOrderStatus(int orderId, OrderStatus newStatus)
+    {
+        var order = Orders.FirstOrDefault(o => o.Id == orderId);
+        if (order == null) return false;
+
+        order.Status = newStatus;
+        SaveChanges();
+        return true;
     }
     
     public List<Order> GetOrders() => Orders.ToList();

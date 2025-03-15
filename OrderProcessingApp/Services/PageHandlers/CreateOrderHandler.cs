@@ -75,7 +75,7 @@ public class CreateOrderHandler : IPageHandler
         
         if (!Enum.TryParse(_orderDetailsValues[4], true, out PaymentMethod paymentMethod))
         {
-            Console.WriteLine(CreateOrderDialog.PaymentMethod);
+            Console.WriteLine(CreateOrderDialog.InvalidPaymentMethod);
             paymentMethod = PaymentMethod.Unknown;
             success = false;
         }
@@ -95,12 +95,12 @@ public class CreateOrderHandler : IPageHandler
 
     private void CreateOrder()
     {
-        Console.WriteLine(ValidateOrder(out Order order)
-            ? CreateOrderDialog.OrderCreated
-            : CreateOrderDialog.OrderCreationFailed);
+        bool success = ValidateOrder(out Order order);
+        int orderId = Program.DatabaseManager.AddOrder(order);
         
-        Program.DatabaseManager.AddOrder(order);
-        
+        Console.WriteLine(success
+            ? CreateOrderDialog.OrderCreated(orderId)
+            : CreateOrderDialog.OrderCreationFailed(orderId));
         Console.Write(CreateOrderDialog.AnotherOrderOrReturn);
     }
     
