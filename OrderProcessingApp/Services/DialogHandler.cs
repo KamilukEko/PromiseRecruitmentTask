@@ -17,6 +17,7 @@ public class DialogHandler
             {Page.MainMenu, () => new MainMenuHandler(ChangePage)},
             {Page.CreateOrder, () => new CreateOrderHandler(ChangePage)},
             {Page.SendToWarehouse, () => new SendToWarehouseHandler(ChangePage)},
+            {Page.SendToShipping, () => new SendToShippingHandler(ChangePage)},
             {Page.OrdersList, () => new OrdersListHandler(ChangePage)},
         };
     }

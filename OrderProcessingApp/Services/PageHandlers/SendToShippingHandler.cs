@@ -5,21 +5,21 @@ using OrderProcessingApp.Models.Enums;
 
 namespace OrderProcessingApp.Services.PageHandlers;
 
-public class SendToWarehouseHandler: IPageHandler
+public class SendToShippingHandler: IPageHandler
 { 
     private readonly List<Action<string>> _dialogSteps;
     private readonly Action<Page> _changePageFunction;
 
-    public SendToWarehouseHandler(Action<Page> changePageFunction)
+    public SendToShippingHandler(Action<Page> changePageFunction)
     {
         _changePageFunction = changePageFunction;
         _dialogSteps = 
         [
-            SendOrderToWarehouse
+            SendOrderToShipping
         ];
     }
 
-    private void SendOrderToWarehouse(string userInput)
+    private void SendOrderToShipping(string userInput)
     {
         if (!int.TryParse(userInput, out int orderId))
         {
@@ -34,24 +34,17 @@ public class SendToWarehouseHandler: IPageHandler
             return;
         }
         
-        if (order.Status != OrderStatus.New)
+        if (order.Status != OrderStatus.InWarehouse)
         {
-            Console.WriteLine(SendToWarehouseDialog.OrderCantBeProcessed);
+            Console.WriteLine(SendToShippingDialog.OrderCantBeProcessed);
             return;
         }
         
-        if (order is { PaymentMethod: PaymentMethod.Cash, TotalAmount: > 2500 })
-        {
-            Console.WriteLine(SendToWarehouseDialog.OrderReturnToClient);
-            Program.DatabaseManager.UpdateOrderStatus(orderId, OrderStatus.Returned);
-            return;
-        }
-        
-        Program.DatabaseManager.UpdateOrderStatus(orderId, OrderStatus.InWarehouse);
-        Console.WriteLine(SendToWarehouseDialog.OrderSentToWarehouse);
+        Program.DatabaseManager.UpdateOrderStatus(orderId, OrderStatus.InShipping);
+        Console.WriteLine(SendToShippingDialog.OrderSentToShipping);
     }
 
-    public void DisplayOptions() => Console.Write(SendToWarehouseDialog.InitialMessage);
+    public void DisplayOptions() => Console.Write(SendToShippingDialog.InitialMessage);
 
     public void HandleUserInput(string userInput)
     {
@@ -66,7 +59,7 @@ public class SendToWarehouseHandler: IPageHandler
         switch (userInput.ToLower())
         {
             case "y":
-                _changePageFunction(Page.SendToWarehouse);
+                _changePageFunction(Page.SendToShipping);
                 return;
             case "n":
                 _changePageFunction(Page.MainMenu);
