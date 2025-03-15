@@ -2,7 +2,7 @@
 
 namespace OrderProcessingApp;
 
-class Program
+public class Program
 {
     public static DatabaseManager DatabaseManager = new();
     static void Main(string[] args) => new DialogHandler().Start();
